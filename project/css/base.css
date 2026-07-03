@@ -1,0 +1,23 @@
+:root {
+  --base-width: 375; /* 基準幅 */
+  --max-width: 640; /* 最大幅 */
+  --base-font-size: 10; /* 基準フォントサイズ (10px) */
+  /* 最大横幅サイズ時の最大フォントサイズ */
+  --max-font-size: calc((var(--base-font-size) / var(--base-width)) * var(--max-width) * 1px);
+}
+
+html {
+  /** 以下指定により「1rem = 横幅が --base-width 時の 10px」となる */
+  font-size: min(calc((var(--base-font-size) / var(--base-width)) * 100vw), var(--max-font-size));
+}
+
+body {
+	margin: 0 auto;
+}
+
+main {
+	width: 100%;
+	max-width: 640px;
+	background-color: #ccc;
+	margin: 0 auto;
+}

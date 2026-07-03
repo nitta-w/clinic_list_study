@@ -1,0 +1,8 @@
+/* style.css メインファイル */
+
+@import "reset.css" layer(reset);
+@import "base.css" layer(base);
+@import "module.css" layer(module);
+@import "state.css" layer(state);
+
+@layer reset, base, module, state;
