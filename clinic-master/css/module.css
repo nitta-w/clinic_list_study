@@ -1,0 +1,25 @@
+/* title */
+.clinic__title{
+	text-align: center;
+	font-weight: 700;
+	padding: 2rem 0 0;
+}
+.clinic__title--main{
+	font-size: 2rem;
+}
+.clinic__title--sub1{
+	background-color: #eee;
+	border-radius: 10px;
+	font-size: 1rem;
+	width: fit-content;
+	margin: 1rem auto;
+	padding: 0 1rem;
+}
+.clinic__title--sub2{
+	font-size: 1.5rem;
+}
+
+/* map */
+.clinic__mapimg{
+	padding: 2rem;
+}

@@ -1,8 +1,193 @@
-/* style.css メインファイル */
+/************************************************************************
+ *
+ * Reset
+ *
+************************************************************************/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+  line-height: 1.1;
+}
+a:not([class]) {
+  color: currentColor;
+}
+img,
+picture {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+textarea:not([rows]) {
+  min-height: 10em;
+}
+:target {
+  scroll-margin-block: 5ex;
+}
+em {
+  font-style: normal;
+}
+summary{
+  outline: none;
+}
 
-@import "reset.css" layer(reset);
-@import "base.css" layer(base);
-@import "module.css" layer(module);
-@import "state.css" layer(state);
+/************************************************************************
+ *
+ * Base
+ *
+************************************************************************/
+:root {
+  --base-width: 375; /* 基準幅 */
+  --max-width: 640; /* 最大幅 */
+  --base-font-size: 10; /* 基準フォントサイズ (10px) */
+  /* 最大横幅サイズ時の最大フォントサイズ */
+  --max-font-size: calc((var(--base-font-size) / var(--base-width)) * var(--max-width) * 1px);
+}
 
-@layer reset, base, module, state;
+html {
+  /** 以下指定により「1rem = 横幅が --base-width 時の 10px」となる */
+  font-size: min(calc((var(--base-font-size) / var(--base-width)) * 100vw), var(--max-font-size));
+}
+
+body {
+	margin: 0 auto;
+  background-color: #eee;
+}
+
+main {
+	width: 100%;
+	max-width: 640px;
+	background-color: #fff;
+	margin: 0 auto;
+}
+
+
+
+/************************************************************************
+ *
+ * module
+ *
+************************************************************************/
+
+/* タイトルのスタイル変更 */
+.clinic__title--main{
+  color: #000;
+}
+
+.clinic__title--sub1{
+  color: #000;
+}
+
+.clinic__title--sub2{
+  color: #000;
+}
+
+/* アコーディオン */
+.clinic__accordion {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.accordion {
+    border-bottom: 1px solid #ddd;
+}
+
+.accordion__area {
+    width: 100%;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none; /* ブラウザ標準の矢印（▶）を消す */
+}
+
+/* Safari用：標準の矢印を消す設定 */
+.accordion__area::-webkit-details-marker {
+    display: none;
+}
+
+.accordion__area::after {
+    content: '+';
+    font-size: 22px;
+    color: #333;
+}
+
+.accordion[open] .accordion__area::after {
+    content: '−';
+}
+
+.accordion .inner {
+    padding: 0 2rem 2rem 2rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.accordion .inner__name{
+  text-align: center;
+  padding: 1rem 0;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.accordion .inner__hours,
+.accordion .inner__address,
+.accordion .inner__access{
+  padding: 1rem 0 .3rem;
+  display: flex;
+  align-items: start;
+}
+
+.accordion .inner__hours span,
+.accordion .inner__address span,
+.accordion .inner__access span{
+  display: block;
+}
+
+.accordion .inner__ttl{
+  width: 5.5rem;
+}
