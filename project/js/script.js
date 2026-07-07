@@ -7,8 +7,5 @@ $(async function(){
 	}
 })
 
-$(function(){
-	
-})
 
 

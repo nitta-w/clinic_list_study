@@ -22,4 +22,59 @@
 /* map */
 .clinic__mapimg{
 	padding: 2rem;
+	position: relative;
+}
+.area-btn{
+	padding: .5rem .8rem;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	background-color: #fff;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	display: flex;
+	align-items: center;
+}
+@media (hover: hover){
+.area-btn:hover{
+	transform: scale(.97);
+	transition: .2s;
+}
+}
+ .area-btn #cl-svg-pin{
+	width: 1.4rem;
+	padding-right: .3rem;
+ }
+.area-btn1{
+	position: absolute;
+	top: 5rem;
+	left: 16rem;
+}
+.area-btn2{
+	position: absolute;
+	top: 24rem;
+	left: 28rem;
+}
+.area-btn3{
+	position: absolute;
+	top: 27rem;
+	left: 25rem;
+}
+.area-btn4{
+	position: absolute;
+	top: 14rem;
+	left: 16rem;
+}
+.area-btn5{
+	position: absolute;
+	top: 28rem;
+	left: 18rem;
+}
+.area-btn6{
+	position: absolute;
+	top: 18rem;
+	left: 2rem;
+}
+.area-btn7{
+	position: absolute;
+	top: 32rem;
+	left: 2rem;
 }

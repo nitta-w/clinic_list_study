@@ -1,6 +1,7 @@
 export async function createMaster(){
 	let clinicDatas = [];
 	let mapSvgCode = '';
+	let pinSvgCode = '';
 
 	// クリニック情報を取得
 	try{
@@ -14,13 +15,18 @@ export async function createMaster(){
 	}
 	console.log(clinicDatas);
 
-	// map.svgをコードで取得
+	// map.svg pin.svgをコードで取得
 	try{
-		const responsSvg = await fetch('../clinic-master/img/map.svg');
-		if (!responsSvg.ok) {
-            throw new Error(`SVGが見つからないよ: ${responsSvg.status}`);
+		const responsMapSvg = await fetch('../clinic-master/img/map.svg');
+		const responsPinSvg = await fetch('../clinic-master/img/pin.svg');
+		if (!responsMapSvg.ok) {
+            throw new Error(`mapのSVGが見つからないよ: ${responsMapSvg.status}`);
         }
-		mapSvgCode = await responsSvg.text();
+		if (!responsPinSvg.ok) {
+            throw new Error(`pinのSVGが見つからないよ: ${responsPinSvg.status}`);
+        }
+		mapSvgCode = await responsMapSvg.text();
+		pinSvgCode = await responsPinSvg.text();
 	}catch(e){
 		console.error(e);
 	}
@@ -28,6 +34,7 @@ export async function createMaster(){
 	createTitle();
 	createMap();
 	clinicAccordion();
+	addEventListener();
 
 	function createTitle(){
 		const $title = $('.clinic__title');
@@ -36,7 +43,21 @@ export async function createMaster(){
 
 	function createMap(){
 		const $map = $('.clinic__map');
-		$map.html(`<div class="clinic__mapimg">${mapSvgCode}</div>`)
+		let areaHtml = '';
+		let areaHtmlItem = [];
+
+		for(let i = 0; i < clinicDatas.length; i++){
+			const area = clinicDatas[i].area;
+			const areaKey = getAreaKey(i);
+
+			const coloredPinSvg = pinSvgCode.replace('<svg', `<svg class="${areaKey[1]}"`)
+			areaHtmlItem.push(`<button class="area-btn area-btn${areaKey[0]}" data-area="${areaKey[0]}">${coloredPinSvg}${area}</button>`);
+		}
+
+		areaHtml = (areaHtmlItem.join(''));
+
+		$map.html(`<div class="clinic__mapimg">${mapSvgCode}${areaHtml}</div>`)
+
 	}
 
 	function clinicAccordion(){
@@ -45,8 +66,10 @@ export async function createMaster(){
 
 		for(let i = 0; i < clinicDatas.length; i++){
 			const area = clinicDatas[i].area;
+			const areaKey = getAreaKey(i);
+
 			createHtml.push(`<details class="accordion">
-								<summary class="accordion__area">${area}</summary>`);
+								<summary class="accordion__area" data-area="${areaKey[0]}">${area}</summary>`);
 
 			const clinicData = clinicDatas[i].clinics;
 
@@ -72,6 +95,40 @@ export async function createMaster(){
 
 		$accordion.html(createHtml.join(''));
 		
+	}
+
+	function addEventListener(){
+		$('.area-btn').on('click', function(){
+			const targetAreaId = $(this).data('area');
+			const $targetAccordion = $(`.accordion__area[data-area="${targetAreaId}"]`).closest('.accordion');
+
+			$('.accordion').not($targetAccordion).removeAttr('open'); // 開いているアコーディオンを閉じる
+			$targetAccordion.find('.accordion__area').trigger('click');
+
+			setTimeout(function(){
+				const targetPosition = $targetAccordion.offset().top;
+				$(window).scrollTop(targetPosition - 20);
+			}, 100);
+		})
+	}
+
+	function getAreaKey(i){
+        const areaMaster = {
+            1 : ['北海道・東北','st8'], // エリア名, 色用class名
+            2 : ['東京','st5'],
+            3 : ['関東','st5'],
+            4 : ['中部','st2'],
+            5 : ['近畿','st7'],
+            6 : ['中国・四国','st6'],
+            7 : ['九州・沖縄','st4']
+        }
+
+		const area = clinicDatas[i].area;
+		const areaKey = Object.keys(areaMaster).find(key => areaMaster[key][0] === area);
+		const colorData = areaKey ? areaMaster[areaKey][1] : 'st1';
+		const finalKey = areaKey || '0';
+
+		return [finalKey, colorData];
 	}
 
 }
