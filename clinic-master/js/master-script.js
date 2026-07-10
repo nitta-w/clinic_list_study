@@ -1,48 +1,46 @@
-export async function createMaster(){
+export async function createMaster(type){
 	let clinicDatas = [];
 	let mapSvgCode = '';
 	let pinSvgCode = '';
 
-	// クリニック情報を取得
-	try{
-		const response = await fetch('../clinic-master/js/clinic.json');
-		if (!response.ok) {
-			throw new Error(`jsonが見つからないよ: ${response.status}`);
-		}
-		clinicDatas = await response.json();
-	}catch(e){
-		console.error(e);
-	}
+	try {
+		// クリニック情報を取得 map.svg pin.svgをコードで取得
+        const [resClinic, resMap, resPin] = await Promise.all([
+            fetch(`../clinic-master/js/${type}/clinic.json`),
+            fetch('../clinic-master/img/map.svg'),
+            fetch('../clinic-master/img/pin.svg')
+        ]);
+
+        // どれか1つでも通信に失敗（404など）していたら、即エラーを投げてストップ
+        if (!resClinic.ok) throw new Error(`jsonが見つからないよ: ${resClinic.status}`);
+        if (!resMap.ok) throw new Error(`mapのSVGが見つからないよ: ${resMap.status}`);
+        if (!resPin.ok) throw new Error(`pinのSVGが見つからないよ: ${resPin.status}`);
+
+        // 全部成功していたら、中身をそれぞれの形式で解析して代入！
+        clinicDatas = await resClinic.json();
+        mapSvgCode = await resMap.text();
+        pinSvgCode = await resPin.text();
+
+    } catch (e) {
+        // 上のどこかでエラーが起きたら、ここでキャッチして処理を安全に終了する
+        console.error('【データの取得に失敗】', e);
+        return; 
+    }
 	console.log(clinicDatas);
 
-	// map.svg pin.svgをコードで取得
-	try{
-		const responsMapSvg = await fetch('../clinic-master/img/map.svg');
-		const responsPinSvg = await fetch('../clinic-master/img/pin.svg');
-		if (!responsMapSvg.ok) {
-            throw new Error(`mapのSVGが見つからないよ: ${responsMapSvg.status}`);
-        }
-		if (!responsPinSvg.ok) {
-            throw new Error(`pinのSVGが見つからないよ: ${responsPinSvg.status}`);
-        }
-		mapSvgCode = await responsMapSvg.text();
-		pinSvgCode = await responsPinSvg.text();
-	}catch(e){
-		console.error(e);
-	}
-
+	
 	createTitle();
 	createMap();
 	clinicAccordion();
 	addEventListener();
 
 	function createTitle(){
-		const $title = $('.clinic__title');
+		const $title = $(`.clinic-${type} .clinic__title`);
 		$title.html('<h2 class="clinic__title--main">クリニック一覧</h2><div class="clinic__title--sub1">ほとんどのクリニックが</div><div class="clinic__title--sub2">駅から5分以内</div>');
 	}
 
 	function createMap(){
-		const $map = $('.clinic__map');
+		const $map = $(`.clinic-${type} .clinic__map`);
 		let areaHtml = '';
 		let areaHtmlItem = [];
 
@@ -61,7 +59,7 @@ export async function createMaster(){
 	}
 
 	function clinicAccordion(){
-		const $accordion = $('.clinic__accordion');
+		const $accordion = $(`.clinic-${type} .clinic__accordion`);
 		let createHtml = [];
 
 		for(let i = 0; i < clinicDatas.length; i++){
@@ -98,9 +96,9 @@ export async function createMaster(){
 	}
 
 	function addEventListener(){
-		$('.area-btn').on('click', function(){
+		$(`.clinic-${type} .area-btn`).on('click', function(){
 			const targetAreaId = $(this).data('area');
-			const $targetAccordion = $(`.accordion__area[data-area="${targetAreaId}"]`).closest('.accordion');
+			const $targetAccordion = $(`.clinic-${type} .accordion__area[data-area="${targetAreaId}"]`).closest('.accordion');
 
 			$('.accordion').not($targetAccordion).removeAttr('open'); // 開いているアコーディオンを閉じる
 			$targetAccordion.find('.accordion__area').trigger('click');
@@ -126,9 +124,7 @@ export async function createMaster(){
 		const area = clinicDatas[i].area;
 		const areaKey = Object.keys(areaMaster).find(key => areaMaster[key][0] === area);
 		const colorData = areaKey ? areaMaster[areaKey][1] : 'st1';
-		const finalKey = areaKey || '0';
 
-		return [finalKey, colorData];
+		return [areaKey, colorData];
 	}
-
 }

@@ -4,9 +4,11 @@
 	font-weight: 700;
 	padding: 2rem 0 0;
 }
+
 .clinic__title--main{
 	font-size: 2rem;
 }
+
 .clinic__title--sub1{
 	background-color: #eee;
 	border-radius: 10px;
@@ -15,6 +17,7 @@
 	margin: 1rem auto;
 	padding: 0 1rem;
 }
+
 .clinic__title--sub2{
 	font-size: 1.5rem;
 }
@@ -24,6 +27,7 @@
 	padding: 2rem;
 	position: relative;
 }
+
 .area-btn{
 	padding: .5rem .8rem;
 	border: 1px solid #ccc;
@@ -33,48 +37,127 @@
 	display: flex;
 	align-items: center;
 }
+
 @media (hover: hover){
 .area-btn:hover{
 	transform: scale(.97);
 	transition: .2s;
 }
 }
- .area-btn #cl-svg-pin{
+
+.area-btn #cl-svg-pin{
 	width: 1.4rem;
 	padding-right: .3rem;
- }
+}
+
 .area-btn1{
 	position: absolute;
 	top: 5rem;
 	left: 16rem;
 }
+
 .area-btn2{
 	position: absolute;
 	top: 24rem;
 	left: 28rem;
 }
+
 .area-btn3{
 	position: absolute;
 	top: 27rem;
 	left: 25rem;
 }
+
 .area-btn4{
 	position: absolute;
 	top: 14rem;
 	left: 16rem;
 }
+
 .area-btn5{
 	position: absolute;
 	top: 28rem;
 	left: 18rem;
 }
+
 .area-btn6{
 	position: absolute;
 	top: 18rem;
 	left: 2rem;
 }
+
 .area-btn7{
 	position: absolute;
 	top: 32rem;
 	left: 2rem;
 }
+
+/* .accordion */
+.clinic__accordion {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.accordion {
+    border-bottom: 1px solid #ddd;
+}
+
+.accordion__area {
+    width: 100%;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none; /* ブラウザ標準の矢印（▶）を消す */
+}
+
+/* Safari用：標準の矢印を消す設定 */
+.accordion__area::-webkit-details-marker {
+    display: none;
+}
+
+.accordion__area::after {
+    content: '+';
+    font-size: 22px;
+    color: #333;
+}
+
+.accordion[open] .accordion__area::after {
+    content: '−';
+}
+
+.accordion .inner {
+    padding: 0 2rem 2rem 2rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.accordion .inner__name{
+  text-align: center;
+  padding: 1rem 0;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.accordion .inner__hours,
+.accordion .inner__address,
+.accordion .inner__access{
+  padding: 1rem 0 .3rem;
+  display: flex;
+  align-items: start;
+}
+
+.accordion .inner__hours span,
+.accordion .inner__address span,
+.accordion .inner__access span{
+  display: block;
+}
+
+.accordion .inner__ttl{
+  width: 5.5rem;
+}
+

@@ -110,6 +110,19 @@ main {
  *
 ************************************************************************/
 
+h1{
+  font-size: 2rem;
+  text-align: center;
+  background-color: #ddd;
+  padding: 1rem;
+  width: 90%;
+  margin: 0 auto 1rem;
+}
+.clinic-demo1,
+.clinic-demo2{
+  padding: 0 0 5rem;
+}
+
 /* タイトルのスタイル変更 */
 .clinic__title--main{
   color: #000;
@@ -121,73 +134,4 @@ main {
 
 .clinic__title--sub2{
   color: #000;
-}
-
-/* アコーディオン */
-.clinic__accordion {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.accordion {
-    border-bottom: 1px solid #ddd;
-}
-
-.accordion__area {
-    width: 100%;
-    padding: 20px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    list-style: none; /* ブラウザ標準の矢印（▶）を消す */
-}
-
-/* Safari用：標準の矢印を消す設定 */
-.accordion__area::-webkit-details-marker {
-    display: none;
-}
-
-.accordion__area::after {
-    content: '+';
-    font-size: 22px;
-    color: #333;
-}
-
-.accordion[open] .accordion__area::after {
-    content: '−';
-}
-
-.accordion .inner {
-    padding: 0 2rem 2rem 2rem;
-    color: #666;
-    line-height: 1.6;
-}
-
-.accordion .inner__name{
-  text-align: center;
-  padding: 1rem 0;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-}
-
-.accordion .inner__hours,
-.accordion .inner__address,
-.accordion .inner__access{
-  padding: 1rem 0 .3rem;
-  display: flex;
-  align-items: start;
-}
-
-.accordion .inner__hours span,
-.accordion .inner__address span,
-.accordion .inner__access span{
-  display: block;
-}
-
-.accordion .inner__ttl{
-  width: 5.5rem;
 }
